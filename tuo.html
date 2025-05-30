@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>天官赐福相册</title>
+  <style type="text/css">
+    /* 新增页面背景设置 */
+    body {
+      perspective: 2000px;
+      margin: 0;
+      padding: 0;
+      /* 设置全屏背景图片 */
+      background-image: url('https://s21.ax1x.com/2025/05/18/pEvyIc6.webp');
+      background-size: cover; /* 确保完全覆盖且保持比例 */
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-attachment: fixed; /* 固定背景防止滚动时移动 */
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    
+    .wrapper {
+      width: 200px;
+      height: 200px;
+      margin: 200px auto;
+      position: relative;
+      animation: infiniteAnimate 7s linear infinite;
+      transform-style: preserve-3d;
+    }
+    
+    @keyframes infiniteAnimate {
+      0% {
+        transform: rotateX(0deg) rotateY(0deg);
+      }
+      100% {
+        transform: rotateX(360deg) rotateY(360deg);
+      }
+    }
+    
+    .min-box, .max-box {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 2s;
+    }
+    
+    .item {
+      opacity: 0.6;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.5); /* 可选：增加半透明蒙版 */
+      border-radius: 5px; /* 可选：圆角边框 */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 可选：投影效果 */
+      position: absolute;
+      transition: all 2s;
+    }
+    
+    /* 更新图片路径（移除旧的背景图） */
+   .item1 {
+      background-image: url('https://s21.ax1x.com/2025/05/18/pEvy51x.webp');
+      transform: rotateY(90deg) translateZ(100px);
+    }
+    
+    .item2 {
+      background-image: url('https://s21.ax1x.com/2025/05/18/pEvy491.webp');
+      transform: rotateY(90deg) translateZ(100px);
+    }
+    
+    .item3 {
+      background-image: url('https://s21.ax1x.com/2025/05/18/pEvyfhR.webp');
+      transform: rotateY(-90deg) translateZ(100px);
+    }
+    
+    .item4 {
+      background-image: url('https://s21.ax1x.com/2025/05/18/pEvyRAJ.webp');
+      transform: rotateY(-180deg) translateZ(100px);
+    }
+    
+    .item5 {
+      background-image: url('https://s21.ax1x.com/2025/05/18/pEvyWN9.webp');
+      transform: rotateX(90deg) translateZ(100px);
+    }
+    
+    .item6 {
+      background-image: url('https://s21.ax1x.com/2025/05/18/pEvyojK.webp');
+      transform: rotateX(-90deg) translateZ(100px);
+    }
+    
+    .wrapper:hover .max-box {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .wrapper:hover .max-box .item {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .wrapper:hover .max-box .item1 {
+      transform: translateZ(300px);
+    }
+    
+    .wrapper:hover .max-box .item2 {
+      transform: rotateY(90deg) translateZ(300px);
+    }
+    
+    .wrapper:hover .max-box .item3 {
+      transform: rotateY(-90deg) translateZ(300px);
+    }
+    
+    .wrapper:hover .max-box .item4 {
+      transform: rotateY(-180deg) translateZ(300px);
+    }
+    
+    .wrapper:hover .max-box .item5 {
+      transform: rotateX(90deg) translateZ(300px);
+    }
+    
+    .wrapper:hover .max-box .item6 {
+      transform: rotateX(-90deg) translateZ(300px);
+    }
+  </style>
+</head>
+<body>
+     <script>
+        (function () {
+            var a_idx = 0;
+            window.onclick = function (event) {
+                var a = new Array("❤叶诗婷❤", "❤可爱❤", "❤漂亮❤", "❤美丽❤", "❤善良❤", "❤自信❤", "❤大方❤", "❤活泼❤", "❤开朗❤",
+                    "❤专注❤", "❤聪明❤", "❤友善❤");
+
+                var heart = document.createElement("b"); //创建b元素
+                heart.onselectstart = new Function('event.returnValue=false'); //防止拖动
+
+                document.body.appendChild(heart).innerHTML = a[a_idx]; //将b元素添加到页面上
+                a_idx = (a_idx + 1) % a.length;
+                heart.style.cssText = "position: fixed;left:-100%;"; //给p元素设置样式
+
+                var f = 16, // 字体大小
+                    x = event.clientX - f / 2, // 横坐标
+                    y = event.clientY - f, // 纵坐标
+                    c = randomColor(), // 随机颜色
+                    a = 1, // 透明度
+                    s = 1.2; // 放大缩小
+
+                var timer = setInterval(function () { //添加定时器
+                    if (a <= 0) {
+                        document.body.removeChild(heart);
+                        clearInterval(timer);
+                    } else {
+                        heart.style.cssText = "font-size:16px;cursor: default;position: fixed;color:" +
+                            c + ";left:" + x + "px;top:" + y + "px;opacity:" + a + ";transform:scale(" +
+                            s + ");";
+
+                        y--;
+                        a -= 0.016;
+                        s += 0.002;
+                    }
+                }, 15)
+
+            }
+            // 随机颜色
+            function randomColor() {
+
+                return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math
+                .random() * 255)) + ")";
+
+            }
+        }());
+    </script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+
+<script src="https://myhkw.cn/player/js/player.js" id="myhk" key="demo" m="1"></script>
+
+  <div class="wrapper">
+    <div class="min-box">
+      <div class="item item1"></div>
+      <div class="item item2"></div>
+      <div class="item item3"></div>
+      <div class="item item4"></div>
+      <div class="item item5"></div>
+      <div class="item item6"></div>
+    </div>
+    <div class="max-box">
+      <div class="item item1"></div>
+      <div class="item item2"></div>
+      <div class="item item3"></div>
+      <div class="item item4"></div>
+      <div class="item item5"></div>
+      <div class="item item6"></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漂浮图片/视频效果</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            height: 100vh;
+            perspective: 1000px;
+        }
+        
+        .floating-media {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.1s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+        
+        .floating-media img, .floating-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .fullscreen-content {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.css">
+    <script src="https://blog-static.cnblogs.com/files/yjlaugus/APlayer.min.js"></script>
+    <div id="aplayer" class="aplayer"  data-id="12613590957" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-order="random" data-theme="#F58EA8"></div>
+    <script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+     <script>
+        (function () {
+            var a_idx = 0;
+            window.onclick = function (event) {
+                var a = new Array("❤叶诗婷❤", "❤可爱❤", "❤漂亮❤", "❤美丽❤", "❤善良❤", "❤自信❤", "❤大方❤", "❤活泼❤", "❤开朗❤",
+                    "❤专注❤", "❤聪明❤", "❤友善❤");
+
+                var heart = document.createElement("b"); //创建b元素
+                heart.onselectstart = new Function('event.returnValue=false'); //防止拖动
+
+                document.body.appendChild(heart).innerHTML = a[a_idx]; //将b元素添加到页面上
+                a_idx = (a_idx + 1) % a.length;
+                heart.style.cssText = "position: fixed;left:-100%;"; //给p元素设置样式
+
+                var f = 16, // 字体大小
+                    x = event.clientX - f / 2, // 横坐标
+                    y = event.clientY - f, // 纵坐标
+                    c = randomColor(), // 随机颜色
+                    a = 1, // 透明度
+                    s = 1.2; // 放大缩小
+
+                var timer = setInterval(function () { //添加定时器
+                    if (a <= 0) {
+                        document.body.removeChild(heart);
+                        clearInterval(timer);
+                    } else {
+                        heart.style.cssText = "font-size:16px;cursor: default;position: fixed;color:" +
+                            c + ";left:" + x + "px;top:" + y + "px;opacity:" + a + ";transform:scale(" +
+                            s + ");";
+
+                        y--;
+                        a -= 0.016;
+                        s += 0.002;
+                    }
+                }, 15)
+
+            }
+            // 随机颜色
+            function randomColor() {
+
+                return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math
+                .random() * 255)) + ")";
+
+            }
+        }());
+    </script>
+    <button onclick="goBack()">返回上一页</button><script>function goBack() {  window.history.back();}</script>
+    <!-- 漂浮媒体容器 -->
+    <div id="media-container"></div>
+    
+    <!-- 全屏显示层 -->
+    <div class="fullscreen-overlay" id="fullscreen-overlay">
+        <span class="close-btn" id="close-btn">&times;</span>
+        <div class="fullscreen-content" id="fullscreen-content"></div>
+    </div>
+    
+    <script>
+        // 媒体数据 - 可以替换为你自己的图片/视频链接
+        const mediaData = [
+            { type: 'image', url: 'https://s21.ax1x.com/2025/05/30/pV9kT5n.jpg', width: 200, height: 150 },
+            { type: 'image', url: 'https://s21.ax1x.com/2025/05/30/pV9kHCq.jpg', width: 180, height: 120 },
+              { type: 'image', url: 'https://s21.ax1x.com/2025/05/30/pV9kXKU.jpg', width: 200, height: 150 },
+        { type: 'image', url: 'https://s21.ax1x.com/2025/05/30/pV9kLvT.jpg', width: 200, height: 150 },
+          { type: 'image', url: 'https://s21.ax1x.com/2025/05/30/pV9kq2V.jpg', width: 200, height: 150 },
+            { type: 'image', url: 'https://s21.ax1x.com/2025/05/30/pV9kb80.jpg', width: 200, height: 150 },
+              { type: 'image', url: 'https://s21.ax1x.com/2025/05/17/pEv3ax1.jpg', width: 200, height: 150 },
+                { type: 'image', url: 'https://s21.ax1x.com/2025/05/17/pEv3wKx.jpg', width: 200, height: 150 },
+                  { type: 'image', url: 'https://s21.ax1x.com/2025/05/17/pEv30r6.jpg', width: 200, height: 150 },
+                    { type: 'image', url: 'https://s21.ax1x.com/2025/05/17/pEv3BqK.jpg', width: 200, height: 150 },
+                      { type: 'image', url: 'https://s21.ax1x.com/2025/05/17/pEv3yIe.jpg', width: 200, height: 150 },
+            { type: 'video', url: 'https://cdn3.easylink.cc/f8724ead-e91a-42f8-92b2-d2b65a52e3f7_Video_1748602601231.mp4?e=1748613719&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:2MIsyoJjL8agnEFYS0CR6cabCjA=', width: 220, height: 140 },
+                        { type: 'video', url: 'https://cdn3.easylink.cc/84cffa18-e517-46cf-9051-7ea8aff069c2_Video_1748602580335.mp4?e=1748613674&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:0wHbn877-q7TmOz1Hl8NrXMF_44=', width: 220, height: 140 },
+                                    { type: 'video', url: 'https://cdn3.easylink.cc/6feee5f4-47a4-4be5-afc8-c4473a4ba302_Video_1748602641086.mp4?e=1748613758&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:PHExfnEJ8HCo6Kbd1MZSx0SjryM=', width: 220, height: 140 },
+                                                { type: 'video', url: 'https://cdn3.easylink.cc/0d17f1cc-cbf5-4d0d-8ef4-372b46b67740_Video_1748602700908.mp4?e=1748614579&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:-XlrmTenaEkEw4vYn9MVto9vz8s=', width: 220, height: 140 },
+                                                            { type: 'video', url: 'https://cdn3.easylink.cc/094c9249-4798-4870-bae1-f5c63bf89b10_Video_1748602711106.mp4?e=1748614622&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:7HkPO09Fyg0Gc25YgiOjZLryZcg=', width: 220, height: 140 },
+                                                                        { type: 'video', url: 'https://cdn3.easylink.cc/8bab5609-b92b-4ec9-87d7-c028cdf7f4b9_Video_1748602725178.mp4?e=1748614659&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:i-4O7zrpyUmDPqkVtCbHNBvnurE=', width: 220, height: 140 },
+                                                                                    { type: 'video', url: 'https://cdn3.easylink.cc/1cffecdc-0ab8-4dd9-aec3-a25b08628abd_Video_1748602734761.mp4?e=1748614697&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:42Z4u-TTR7TZOL9aEAKlXFl9T60=', width: 220, height: 140 },
+                                                                                                { type: 'video', url: 'https://cdn3.easylink.cc/ee37e7c0-7ddb-4aa0-b543-a6b87ade4192_Video_1748602757224.mp4?e=1748614864&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:IJ6qmGYbujofYzuZzUALmalCulQ=', width: 220, height: 140 },
+            { type: 'image', url: 'https://s21.ax1x.com/2025/05/30/pV9koUs.jpg', width: 160, height: 100 },
+            { type: 'video', url: 'https://cdn3.easylink.cc/c8799cb7-73e5-4198-8f4f-4b2e9532a006_Video_1748602762344.mp4?e=1748614903&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:XZQhClloK35kkLDKJChUHCUin20=', width: 240, height: 160 }
+        ];
+        
+        // 初始化变量
+        const container = document.getElementById('media-container');
+        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+        const fullscreenContent = document.getElementById('fullscreen-content');
+        const closeBtn = document.getElementById('close-btn');
+        const mediaElements = [];
+        
+        // 创建漂浮媒体元素
+        function createFloatingMedia() {
+            mediaData.forEach((media, index) => {
+                const element = document.createElement('div');
+                element.className = 'floating-media';
+                element.style.width = `${media.width}px`;
+                element.style.height = `${media.height}px`;
+                
+                // 随机初始位置
+                const left = Math.random() * (window.innerWidth - media.width);
+                const top = Math.random() * (window.innerHeight - media.height);
+                element.style.left = `${left}px`;
+                element.style.top = `${top}px`;
+                
+                // 随机初始旋转角度
+                const rotateX = Math.random() * 30 - 15;
+                const rotateY = Math.random() * 30 - 15;
+                const rotateZ = Math.random() * 30 - 15;
+                element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
+                
+                // 创建媒体内容
+                if (media.type === 'image') {
+                    const img = document.createElement('img');
+                    img.src = media.url;
+                    img.alt = `图片 ${index + 1}`;
+                    element.appendChild(img);
+                } else if (media.type === 'video') {
+                    const video = document.createElement('video');
+                    video.src = media.url;
+                    video.loop = true;
+                    video.muted = true;
+                    video.autoplay = true;
+                    element.appendChild(video);
+                }
+                
+                // 点击事件 - 全屏显示
+                element.addEventListener('click', () => {
+                    showFullscreen(media);
+                });
+                
+                container.appendChild(element);
+                mediaElements.push({
+                    element,
+                    speedX: Math.random() * 2 - 1,
+                    speedY: Math.random() * 2 - 1,
+                    rotateSpeedX: Math.random() * 0.5 - 0.25,
+                    rotateSpeedY: Math.random() * 0.5 - 0.25,
+                  rotateSpeedZ: Math.random() * 0.5 - 0.25
+                });
+            });
+        }
+        
+        // 显示全屏
+        function showFullscreen(media) {
+            fullscreenContent.innerHTML = '';
+            
+            if (media.type === 'image') {
+                const img = document.createElement('img');
+                img.src = media.url;
+                img.className = 'fullscreen-content';
+                fullscreenContent.appendChild(img);
+            } else if (media.type === 'video') {
+                const video = document.createElement('video');
+                video.src = media.url;
+                video.controls = true;
+                video.autoplay = true;
+                video.className = 'fullscreen-content';
+                fullscreenContent.appendChild(video);
+            }
+            
+            fullscreenOverlay.style.display = 'flex';
+        }
+        
+        // 关闭全屏
+        closeBtn.addEventListener('click', () => {
+            fullscreenOverlay.style.display = 'none';
+            // 停止视频播放
+            const video = fullscreenContent.querySelector('video');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+        
+        // 动画循环 - 使元素漂浮移动
+        function animate() {
+            mediaElements.forEach(item => {
+                const rect = item.element.getBoundingClientRect();
+                let newLeft = parseFloat(item.element.style.left) + item.speedX;
+                let newTop = parseFloat(item.element.style.top) + item.speedY;
+                
+                // 边界检测
+                if (newLeft <= 0 || newLeft + rect.width >= window.innerWidth) {
+                    item.speedX *= -1;
+                    newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - rect.width));
+                }
+                
+                if (newTop <= 0 || newTop + rect.height >= window.innerHeight) {
+                    item.speedY *= -1;
+                    newTop = Math.max(0, Math.min(newTop, window.innerHeight - rect.height));
+                }
+                
+                item.element.style.left = `${newLeft}px`;
+                item.element.style.top = `${newTop}px`;
+                
+                // 旋转动画
+                const transform = item.element.style.transform;
+                const matches = transform.match(/rotateX\(([-\d.]+)deg\) rotateY\(([-\d.]+)deg\) rotateZ\(([-\d.]+)deg\)/);
+                let rotateX = matches ? parseFloat(matches[1]) : 0;
+                let rotateY = matches ? parseFloat(matches[2]) : 0;
+                let rotateZ = matches ? parseFloat(matches[3]) : 0;
+                
+                rotateX += item.rotateSpeedX;
+                rotateY += item.rotateSpeedY;
+                rotateZ += item.rotateSpeedZ;
+                
+                item.element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // 窗口大小调整时重新定位元素
+        window.addEventListener('resize', () => {
+            mediaElements.forEach(item => {
+                const rect = item.element.getBoundingClientRect();
+                const left = Math.min(parseFloat(item.element.style.left), window.innerWidth - rect.width);
+                const top = Math.min(parseFloat(item.element.style.top), window.innerHeight - rect.height);
+                
+                item.element.style.left = `${left}px`;
+                item.element.style.top = `${top}px`;
+            });
+        });
+        
+        // 初始化
+        createFloatingMedia();
+        animate();
+    </script>
+</body>
+</html>

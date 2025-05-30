@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> 爱心 </title>
+    <meta charset="UTF-8">
+    <meta name="Keywords" content="爱心代码，程序员表白">
+    <meta name="Description" content="爱心代码，爱心代码项目">
+    <link rel="shortcut icon" href="../picture/爱心.png" type="image/x-icon">
+    
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: pink;
+
+        }
+
+        #frame {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            margin: 250px auto;
+        }
+
+        .left,
+        .right {
+            top: 0;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+        }
+
+        .left {
+            left: 35px;
+
+        }
+
+        .right {
+            right: 35px;
+            z-index: -1;
+        }
+
+        .bottom {
+            bottom: 36px;
+            left: 100px;
+            width: 200px;
+            height: 200px;
+            transform: rotate(45deg);
+            z-index: -1;
+
+        }
+
+        .heart {
+            position: absolute;
+            box-shadow: 0 0 40px #d5093c;
+            animation: beat .4s ease infinite normal;
+            background: linear-gradient(-90deg, #F50A45 0%, #d5093c 40%);
+        }
+
+        @keyframes beat {
+            0% {
+                transform: scale(1) rotate(225deg);
+                box-shadow: 0 0 40px #d5093c;
+            }
+
+            50% {
+                transform: scale(1.1) rotate(225deg);
+                box-shadow: 0 0 70px #d5093c;
+            }
+
+            100% {
+                transform: scale(1) rotate(225deg);
+                box-shadow: 0 0 40px #d5093c;
+                ;
+            }
+        }
+
+        .word {
+            position: absolute;
+            width: 50%;
+            top: 75%;
+            left: 25%;
+            text-align: center;
+            transform: translateY(-50%);
+            font-family: 'Love Ya Like A Sister', cursive;
+            font-size: 40px;
+            color: #c70012;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+
+<body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.css">
+    <script src="https://blog-static.cnblogs.com/files/yjlaugus/APlayer.min.js"></script>
+    <div id="aplayer" class="aplayer"  data-id="12613590957" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-order="random" data-theme="#F58EA8"></div>
+    <script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+     <script>
+        (function () {
+            var a_idx = 0;
+            window.onclick = function (event) {
+                var a = new Array("❤叶诗婷❤", "❤可爱❤", "❤漂亮❤", "❤美丽❤", "❤善良❤", "❤自信❤", "❤大方❤", "❤活泼❤", "❤开朗❤",
+                    "❤专注❤", "❤聪明❤", "❤友善❤");
+
+                var heart = document.createElement("b"); //创建b元素
+                heart.onselectstart = new Function('event.returnValue=false'); //防止拖动
+
+                document.body.appendChild(heart).innerHTML = a[a_idx]; //将b元素添加到页面上
+                a_idx = (a_idx + 1) % a.length;
+                heart.style.cssText = "position: fixed;left:-100%;"; //给p元素设置样式
+
+                var f = 16, // 字体大小
+                    x = event.clientX - f / 2, // 横坐标
+                    y = event.clientY - f, // 纵坐标
+                    c = randomColor(), // 随机颜色
+                    a = 1, // 透明度
+                    s = 1.2; // 放大缩小
+
+                var timer = setInterval(function () { //添加定时器
+                    if (a <= 0) {
+                        document.body.removeChild(heart);
+                        clearInterval(timer);
+                    } else {
+                        heart.style.cssText = "font-size:16px;cursor: default;position: fixed;color:" +
+                            c + ";left:" + x + "px;top:" + y + "px;opacity:" + a + ";transform:scale(" +
+                            s + ");";
+
+                        y--;
+                        a -= 0.016;
+                        s += 0.002;
+                    }
+                }, 15)
+
+            }
+            // 随机颜色
+            function randomColor() {
+
+                return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math
+                .random() * 255)) + ")";
+
+            }
+        }());
+    </script>
+    <button onclick="goBack()">返回上一页</button><script>function goBack() {  window.history.back();}</script>
+    <div id="frame">
+        <div class="heart left"></div>
+        <div class="heart right"></div>
+        <div class="heart bottom"></div>
+    </div>
+
+    <b class="word">我喜欢你！</b>
+
+    <script>
+        var b = document.body;
+        var c = document.getElementsByTagName('canvas')[0];
+        var a = c.getContext('2d');
+        document.body.clientWidth;
+        with (m = Math) C = cos, S = sin, P = pow, R = random; c.width = c.height = f = 600; h = -250; function p(a, b, c) { if (c > 60) return [S(a * 7) * (13 + 5 / (.2 + P(b * 4, 4))) - S(b) * 50, b * f + 50, 625 + C(a * 7) * (13 + 5 / (.2 + P(b * 4, 4))) + b * 400, a * 1 - b / 2, a]; A = a * 2 - 1; B = b * 2 - 1; if (A * A + B * B < 1) { if (c > 37) { n = (j = c & 1) ? 6 : 4; o = .5 / (a + .01) + C(b * 125) * 3 - a * 300; w = b * h; return [o * C(n) + w * S(n) + j * 610 - 390, o * S(n) - w * C(n) + 550 - j * 350, 1180 + C(B + A) * 99 - j * 300, .4 - a * .1 + P(1 - B * B, -h * 6) * .15 - a * b * .4 + C(a + b) / 5 + P(C((o * (a + 1) + (B > 0 ? w : -w)) / 25), 30) * .1 * (1 - B * B), o / 1e3 + .7 - o * w * 3e-6] } if (c > 32) { c = c * 1.16 - .15; o = a * 45 - 20; w = b * b * h; z = o * S(c) + w * C(c) + 620; return [o * C(c) - w * S(c), 28 + C(B * .5) * 99 - b * b * b * 60 - z / 2 - h, z, (b * b * .3 + P((1 - (A * A)), 7) * .15 + .3) * b, b * .7] } o = A * (2 - b) * (80 - c * 2); w = 99 - C(A) * 120 - C(b) * (-h - c * 4.9) + C(P(1 - b, 7)) * 50 + c * 2; z = o * S(c) + w * C(c) + 700; return [o * C(c) - w * S(c), B * 99 - C(P(b, 7)) * 50 - c / 3 - z / 1.35 + 450, z, (1 - b / 1.2) * .9 + a * .1, P((1 - b), 20) / 4 + .05] } } setInterval('for(i=0;i<1e4;i++)if(s=p(R(),R(),i%46/.74)){z=s[2];x=~~(s[0]*f/z-h);y=~~(s[1]*f/z-h);if(!m[q=y*f+x]|m[q]>z)m[q]=z,a.fillStyle="rgb("+~(s[3]*h)+","+~(s[4]*h)+","+~(s[3]*s[3]*-80)+")",a.fillRect(x,y,1,1)}', 0)
+    </script>
+</body>
+
+</html>

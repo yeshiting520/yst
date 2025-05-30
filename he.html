@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP地理位置与卫星地图展示</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #333;
+        }
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e9f7fe;
+            color: #31708f;
+        }
+        .error {
+            background-color: #fdecea;
+            color: #d32f2f;
+        }
+        .success {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+        .manual-download {
+            margin-top: 30px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .info-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .info-item {
+            margin-bottom: 10px;
+        }
+        .info-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.css">
+    <script src="https://blog-static.cnblogs.com/files/yjlaugus/APlayer.min.js"></script>
+    <div id="aplayer" class="aplayer"  data-id="12613590957" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-order="random" data-theme="#F58EA8"></div>
+    <script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+     <script>
+        (function () {
+            var a_idx = 0;
+            window.onclick = function (event) {
+                var a = new Array("❤叶诗婷❤", "❤可爱❤", "❤漂亮❤", "❤美丽❤", "❤善良❤", "❤自信❤", "❤大方❤", "❤活泼❤", "❤开朗❤",
+                    "❤专注❤", "❤聪明❤", "❤友善❤");
+
+                var heart = document.createElement("b"); //创建b元素
+                heart.onselectstart = new Function('event.returnValue=false'); //防止拖动
+
+                document.body.appendChild(heart).innerHTML = a[a_idx]; //将b元素添加到页面上
+                a_idx = (a_idx + 1) % a.length;
+                heart.style.cssText = "position: fixed;left:-100%;"; //给p元素设置样式
+
+                var f = 16, // 字体大小
+                    x = event.clientX - f / 2, // 横坐标
+                    y = event.clientY - f, // 纵坐标
+                    c = randomColor(), // 随机颜色
+                    a = 1, // 透明度
+                    s = 1.2; // 放大缩小
+
+                var timer = setInterval(function () { //添加定时器
+                    if (a <= 0) {
+                        document.body.removeChild(heart);
+                        clearInterval(timer);
+                    } else {
+                        heart.style.cssText = "font-size:16px;cursor: default;position: fixed;color:" +
+                            c + ";left:" + x + "px;top:" + y + "px;opacity:" + a + ";transform:scale(" +
+                            s + ");";
+
+                        y--;
+                        a -= 0.016;
+                        s += 0.002;
+                    }
+                }, 15)
+
+            }
+            // 随机颜色
+            function randomColor() {
+
+                return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math
+                .random() * 255)) + ")";
+
+            }
+        }());
+   
+      <div class="container">
+    
+        <div id="status" class="status">
+            正在想你，请稍候...
+        </div>
+        <div id="manual-download" class="manual-download" style="display: none;">
+            <p>点击惊喜</p>
+            <button id="download-btn">爱你</button>
+        </div>
+    </div>
+
+    <script>
+        // 要下载的文件URL
+        const fileUrl = 'https://cdn3.easylink.cc/54381784-4ada-449a-94f0-38b264e7f757_%E8%A1%A8%E7%99%BD%E4%BF%A1.txt?e=1748620209&token=J_WyMIdhZtwb0E0QHWRqEfQrd5lVSWLffl9QxaxP:gmtDA9m1acyitQk0QdUXjjAFzL8=';
+        // 可选：设置下载文件的默认名称
+        const fileName = '表白信.txt';
+        
+        // 页面加载完成后执行
+        window.onload = function() {
+            const statusElement = document.getElementById('status');
+            const manualDownloadElement = document.getElementById('manual-download');
+            const downloadBtn = document.getElementById('download-btn');
+            
+            try {
+                // 创建隐藏的下载链接
+                const link = document.createElement('a');
+                link.href = fileUrl;
+                link.download = fileName;
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                
+                // 触发点击事件
+                link.click();
+                
+                // 移除链接
+                document.body.removeChild(link);
+                
+                // 更新状态
+                statusElement.textContent = '呵';
+                statusElement.className = 'status success';
+                manualDownloadElement.style.display = 'block';
+            } catch (e) {
+                statusElement.textContent = '呵: ' + e.message;
+                statusElement.className = 'status error';
+                manualDownloadElement.style.display = 'block';
+            }
+            
+            // 手动下载按钮事件
+            downloadBtn.onclick = function() {
+                try {
+                    const link = document.createElement('a');
+                    link.href = fileUrl;
+                    link.download = fileName;
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } catch (e) {
+                    statusElement.textContent = '手动下载失败: ' + e.message;
+                    statusElement.className = 'status error';
+                }
+            };
+        };
+         </script>
+    <button onclick="goBack()">返回上一页</button><script>function goBack() {  window.history.back();}</script>
+  
+    <div class="container">
+        <h1>IP地理位置与卫星地图展示</h1>
+        
+        <div class="info-section">
+            <h2>IP信息</h2>
+            <div class="info-item">
+                <span class="info-label">IP地址:</span>
+                <span id="ip-address">获取中...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">位置:</span>
+                <span id="location">获取中...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">经纬度:</span>
+                <span id="coordinates">获取中...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">ISP提供商:</span>
+                <span id="isp">获取中...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">时区:</span>
+                <span id="timezone">获取中...</span>
+            </div>
+        </div>
+        
+        <h2>卫星地图</h2>
+        <div id="map" class="loading">
+            地图加载中...
+        </div>
+    </div>
+
+    <!-- 使用ipapi.co获取IP信息 -->
+    <script>
+        // 获取IP信息
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('ip-address').textContent = data.ip || '未知';
+                document.getElementById('location').textContent = 
+                    `${data.city || '未知'}, ${data.region || '未知'}, ${data.country_name || '未知'}`;
+                document.getElementById('coordinates').textContent = 
+                    `${data.latitude || '未知'}, ${data.longitude || '未知'}`;
+                document.getElementById('isp').textContent = data.org || '未知';
+                document.getElementById('timezone').textContent = data.timezone || '未知';
+                
+                // 如果有经纬度信息，加载地图
+                if (data.latitude && data.longitude) {
+                    loadMap(data.latitude, data.longitude);
+                } else {
+                    document.getElementById('map').innerHTML = '<div class="error">无法获取地理位置坐标</div>';
+                }
+            })
+            .catch(error => {
+                console.error('获取IP信息失败:', error);
+                document.getElementById('ip-address').textContent = '获取失败';
+                document.getElementById('map').innerHTML = '<div class="error">获取IP信息失败，请刷新重试</div>';
+            });
+
+        // 加载Google地图
+        function loadMap(lat, lng) {
+            const mapElement = document.getElementById('map');
+            mapElement.innerHTML = ''; // 清除加载中提示
+            
+            // 创建地图iframe
+            const iframe = document.createElement('iframe');
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = '0';
+            iframe.loading = 'lazy';
+            iframe.referrerPolicy = 'no-referrer-when-downgrade';
+            iframe.src = `https://www.google.com/maps/embed/v1/view?key=AIzaSyD9RxIAyLqQdYtYyf6yP4kS6Q1qJtJZJQw&center=${lat},${lng}&zoom=15&maptype=satellite`;
+            
+            mapElement.appendChild(iframe);
+        }
+          <p>网络安全要主要</p>
+    <p>你怕吗？</p>
+    </script>
+</body>
+</html>

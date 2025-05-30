@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Link Jump</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #fff;
+            font-style: italic;
+        }
+        
+        .links-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+        
+        .cool-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #ff4081;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-height: 50px;
+            word-break: break-word;
+        }
+        
+        .cool-link:hover {
+            transform: translateY(-5px) scale(1.05);
+            background-color: #ff1e63;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cool-link:active {
+            transform: translateY(0) scale(0.95);
+        }
+        
+        .footer {
+            margin-top: 20px;
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>叶诗婷</h1>
+        <p>你永远不懂的追求。</p>
+    </div>
+    
+    <div class="links-container">
+        <div class="links-grid">
+            <a href="duo.html" target="_blank" class="cool-link">你的心</a>
+            <a href="fz.html" target="_blank" class="cool-link">评价</a>
+            <a href="love-add.html" target="_blank" class="cool-link">山有木兮木有枝</a>
+            <a href="love-add2.html" target="_blank" class="cool-link">岁月静好</a>
+            <a href="aixin.html" target="_blank" class="cool-link">爱心</a>
+            <a href="love-add3.html" target="_blank" class="cool-link">❤️</a>
+            <a href="love.html" target="_blank" class="cool-link">馨馨</a>
+            <a href="love2.html" target="_blank" class="cool-link">欣欣向荣</a>
+            <a href="love4.html" target="_blank" class="cool-link">悦动</a>
+            <a href="love5.html" target="_blank" class="cool-link">思念</a>
+            <a href="love6.html" target="_blank" class="cool-link">心怀鬼胎</a>
+            <a href="meteor-shower.html" target="_blank" class="cool-link">流星雨</a>
+            <a href="piaofu.html" target="_blank" class="cool-link">点滴回忆</a>
+            <a href="sj.html" target="_blank" class="cool-link">时间流逝</a>
+            <a href="starry-sky.html" target="_blank" class="cool-link">星空装点你眼眸</a>
+            <a href="tuo.html" target="_blank" class="cool-link">天官赐福</a>
+            <a href="yh.html" target="_blank" class="cool-link">送你最灿烂的烟花</a>
+            <a href="z.html" target="_blank" class="cool-link">钟将再见</a>
+            <a href="he.html" target="_blank" class="cool-link">呵呵🙃</a>
+            <a href="https://www.cnblogs.com/lihaoyu0618" target="_blank" class="cool-link">作者博客</a>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>点击页面任意位置有惊喜 ❤</p>
+    </div>
+    
+    <script>
+        (function () {
+            var a_idx = 0;
+            window.onclick = function (event) {
+                var a = new Array("❤叶诗婷❤", "❤可爱❤", "❤漂亮❤", "❤美丽❤", "❤善良❤", "❤自信❤", "❤大方❤", "❤活泼❤", "❤开朗❤",
+                    "❤专注❤", "❤聪明❤", "❤友善❤");
+
+                var heart = document.createElement("b");
+                heart.onselectstart = new Function('event.returnValue=false');
+
+                document.body.appendChild(heart).innerHTML = a[a_idx];
+                a_idx = (a_idx + 1) % a.length;
+                heart.style.cssText = "position: fixed;left:-100%;";
+
+                var f = 16,
+                    x = event.clientX - f / 2,
+                    y = event.clientY - f,
+                    c = randomColor(),
+                    a = 1,
+                    s = 1.2;
+
+                var timer = setInterval(function () {
+                    if (a <= 0) {
+                        document.body.removeChild(heart);
+                        clearInterval(timer);
+                    } else {
+                        heart.style.cssText = "font-size:16px;cursor: default;position: fixed;color:" +
+                            c + ";left:" + x + "px;top:" + y + "px;opacity:" + a + ";transform:scale(" +
+                            s + ");";
+
+                        y--;
+                        a -= 0.016;
+                        s += 0.002;
+                    }
+                }, 15)
+            }
+            
+            function randomColor() {
+                return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+            }
+        }());
+    </script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.0/dist/APlayer.min.css">
+    <script src="https://blog-static.cnblogs.com/files/yjlaugus/APlayer.min.js"></script>
+    <div id="aplayer" class="aplayer" data-id="12613590957" data-server="netease" data-type="playlist" data-fixed="true" data-listfolded="true" data-order="random" data-theme="#F58EA8"></div>
+    <script src="https://unpkg.com/meting@1.2/dist/Meting.min.js"></script>
+</body>
+</html>
